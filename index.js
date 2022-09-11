@@ -45,8 +45,10 @@ app.post("/update-profile", (req, res) => {
   User
     .findOneAndUpdate({email},{ name, email, interests },{new:true})
     .then((e) => {
-      console.log(e)
-      res.json("Ok");
+      res.json({
+        status:"200",
+        msg:"Record Updated"
+      });
     })
     .catch((err) => {
       console.log(err);
