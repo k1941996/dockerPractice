@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+    <script>
+      function getData(url, email) {
+        console.log("--------------", email);
+        fetch(`${url}?email=${email}`)
+          .then((e) => e.json())
+          .then((res) => {
+            document.querySelector("#interests-edit").value = res.interests;
+            document.querySelector("#name-edit").value = res.name;
+            document.querySelector("#email-edit").value = res.email;
+          });
+      }
+
+      function getProfile() {
+        const email = document.querySelector("#email-edit").value;
+        getData("/get-profile", email);
+      }
+
+      function postData(url, data) {
+        console.log(data, url);
+        fetch(url, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((e) => {
+            return e.json();
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function editProfile() {
+        document.querySelector("#container").style.display = "none";
+        document.querySelector("#container-edit").style.display = "block";
+        document.querySelector(".showBtn").style.display = "block";
+
+        const name = document.querySelector("#name").textContent;
+        const email = document.querySelector("#email").textContent;
+        const interests = document.querySelector("#interests").textContent;
+
+        document.querySelector("#interests-edit").value = interests;
+        document.querySelector("#name-edit").value = name;
+        document.querySelector("#email-edit").value = email;
+      }
+
+      function saveProfile() {
+        document.querySelector("#container").style.display = "block";
+        document.querySelector("#container-edit").style.display = "none";
+        document.querySelector(".showBtn").style.display = "none";
+        const name = document.querySelector("#name-edit").value;
+        document.querySelector("#name").textContent = name;
+        const email = document.querySelector("#email-edit").value;
+        document.querySelector("#email").textContent = email;
+        const interests = document.querySelector("#interests-edit").value;
+        document.querySelector("#interests").textContent = interests;
+        const obj = { name, email, interests };
+        postData("/update-profile", obj);
+      }
+    </script>
+    <style>
+      .heading {
+        margin: 16px;
+      }
+      .showBtn {
+        display: none;
+      }
+      h3 {
+        margin: 0;
+        flex: 2;
+      }
+      .container {
+        padding: 16px;
+      }
+      .container-edit {
+        display: none;
+        padding: 16px;
+      }
+      .container-item {
+        display: flex;
+      }
+      .label {
+        flex: 1;
+      }
+      input {
+        flex: 2;
+        margin: 2px 0;
+      }
+      .img-container {
+        width: 300px;
+      }
+      .image {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+        <div class="heading">
+      <h2>User Profile</h2>
+      <div class="img-container">
+        <img src="profile-picture" class="image" />
+      </div>
+    </div>
+    <div class="container" id="container">
+      <div class="container-item">
+        <label for="name" class="label">Name</label>
+        <h3 type="text" class="" id="name">Akshansh</h3>
+      </div>
+      <div class="container-item">
+        <label for="email" class="label">Email</label>
+        <h3 type="text" class="" id="email">akshu.akhu@gmail.com</h3>
+      </div>
+      <div class="container-item">
+        <label for="interests" class="label">Interests</label>
+        <h3 type="text" class="" id="interests">Coding</h3>
+      </div>
+      <div class="container-item">
+        <button onclick="editProfile()">Edit Profile</button>
+      </div>
+    </div>
+    <div class="container-edit" id="container-edit">
+      <div class="container-item">
+        <label for="name" class="label">Name</label>
+        <input type="text" class="input" id="name-edit" value="" />
+      </div>
+      <div class="container-item">
+        <label for="email" class="label">Email</label>
+        <input type="text" class="input" id="email-edit" />
+      </div>
+      <div class="container-item">
+        <label for="interests" class="label">Interests</label>
+        <input type="text" class="input" id="interests-edit" />
+      </div>
+      <div class="container-item">
+        <button onclick="saveProfile()">Save Profile</button>
+      </div>
+    </div>
+    <div class="showBtn">
+      <button onclick="getProfile()">Get Profile</button>
+    </div>
+  </body>
+</html>
