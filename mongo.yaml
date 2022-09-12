@@ -1,5 +1,13 @@
 version: '3'
 services:
+  myapp:
+    image: myapp:latest
+    container_name: myapp
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
+      - mongo-express
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -20,5 +28,3 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=akshansh1998
       - ME_CONFIG_MONGODB_SERVER=mongodb
-
-  

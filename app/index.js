@@ -12,12 +12,13 @@ app.get("/", (req, res) => {
 });
 
 app.get("/profile-picture", (req, res) => {
-  var img = fs.readFileSync("profile-pic.jpg");
+  var img = fs.readFileSync(path.join(__dirname,"profile-pic.jpg"));
   res.writeHead(200, { "Content-type": "image/jpg" });
   res.end(img, "binary");
 });
 
-const URL = `mongodb://root:akshansh1998@localhost:27017/user-account?authSource=admin`;
+const URL = `mongodb://root:akshansh1998@mongodb:27017/user-account?authSource=admin`;
+// const URL = `mongodb://root:akshansh1998@localhost:27017/user-account?authSource=admin`;
 mongoose.connect(URL);
 const connection = mongoose.connection;
 
